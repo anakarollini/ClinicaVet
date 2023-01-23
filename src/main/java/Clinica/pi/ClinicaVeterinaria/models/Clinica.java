@@ -40,4 +40,9 @@ public class Clinica {
 	public void setDataPlantao(String dataPlantao) {
 		this.dataPlantao = dataPlantao;
 	}
+	@Override
+	public String toString() {
+		return "Clinica [id=" + id + ", nome=" + nome + ", crmv=" + crmv + ", dataPlantao=" + dataPlantao + "]";
+	}
+	
 }
