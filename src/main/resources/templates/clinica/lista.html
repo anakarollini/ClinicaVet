@@ -27,7 +27,7 @@
 			<tbody>
 			<tr  th:each="c : ${clinica}">
 			<td th:text="${c.id}">1</td>
-			<td th:text="${c.nome}">Ana</td>
+			<td> <a th:href="@{/clinica/{id}(id=${c.id})}"> <span th:text="${c.nome}">Ana</span></a></td>
 			<td th:text="${c.crmv}">1234</td>
 			<td th:text="${c.dataPlantao}">12/02/2023</td>
 			</tr>
