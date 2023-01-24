@@ -16,7 +16,7 @@ public class ClinicaController {
 	
 	@RequestMapping("/clinica/form")
 	public String form() {
-		return "formClinica";
+		return "clinica/formClinica";
 	}
 	
     @PostMapping("/veterinario")
@@ -27,7 +27,7 @@ public class ClinicaController {
  
     
     	
-		return "veterinario-adicionado";
+		return "clinica/veterinario-adicionado";
 	}
 
 }
