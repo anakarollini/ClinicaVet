@@ -60,32 +60,52 @@ public class ClinicaController {
 		md.setViewName("clinica/detalhes");
 		Clinica clinica = opt.get();
 		md.addObject("clinica", clinica);
-		
+
 		List<Paciente> pacientes = pr.findByClinica(clinica);
 		md.addObject("pacientes", pacientes);
 
 		return md;
 
 	}
-	
+
 	@PostMapping("/{idClinica}")
 	public String salvarPaciente(@PathVariable Long idClinica, Paciente paciente) {
-		
+
 		System.out.println("Id do veterinário: " + idClinica);
 		System.out.println(paciente);
-		
+
 		Optional<Clinica> opt = cr.findById(idClinica);
-		
-		if(opt.isEmpty()) {
+
+		if (opt.isEmpty()) {
 			return "redirect:/clinica";
 		}
-		
+
 		Clinica clinica = opt.get();
 		paciente.setClinica(clinica);
-		
+
 		pr.save(paciente);
-		
+
 		return "redirect:/clinica/{idClinica}";
+	}
+	
+	@GetMapping("/{id}/remover")
+	public String apagarClinica(@PathVariable Long id) {
+
+		Optional<Clinica> opt = cr.findById(id);
+
+		if (!opt.isEmpty()) {
+			
+			Clinica clinica = opt.get();
+			
+			List<Paciente> pacientes = pr.findByClinica(clinica);
+			
+			pr.deleteAll(pacientes);
+			
+			cr.delete(clinica);
+			
+		}
+		
+		return "redirect:/clinica";
 	}
 
 }
