@@ -87,12 +87,12 @@
 						</thead>
 						<tbody>
 						<tr th:each="c : ${pacientes}">
-						<td>1</td>
-						<td>Bob</td>
-						<td>2</td>
-						<td>Canina</td>
-						<td>12/01/2023</td>
-						<td>09:00</td>
+						<td th:text="${c.id}">1</td>
+						<td th:text="${c.nome}">Bob</td>
+						<td th:text="${c.idade}">2</td>
+						<td th:text="${c.especie}">Canina</td>
+						<td th:text="${c.dataAtendimento}">12/01/2023</td>
+						<td th:text="${c.horaAtendimento}">09:00</td>
 						</tr>
 						</tbody>
 						</table>
