@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import Clinica.pi.ClinicaVeterinaria.models.Clinica;
+import Clinica.pi.ClinicaVeterinaria.models.Paciente;
 import Clinica.pi.ClinicaVeterinaria.repositories.ClinicaRepository;
+import Clinica.pi.ClinicaVeterinaria.repositories.PacienteRepository;
 
 @Controller
 @RequestMapping("/clinica")
@@ -20,6 +22,8 @@ public class ClinicaController {
 
 	@Autowired
 	private ClinicaRepository cr;
+	@Autowired
+	private PacienteRepository pr;
 
 	@GetMapping("/form")
 	public String form() {
@@ -56,9 +60,32 @@ public class ClinicaController {
 		md.setViewName("clinica/detalhes");
 		Clinica clinica = opt.get();
 		md.addObject("clinica", clinica);
+		
+		List<Paciente> pacientes = pr.findByClinica(clinica);
+		md.addObject("pacientes", pacientes);
 
 		return md;
 
+	}
+	
+	@PostMapping("/{idClinica}")
+	public String salvarPaciente(@PathVariable Long idClinica, Paciente paciente) {
+		
+		System.out.println("Id do veterinário: " + idClinica);
+		System.out.println(paciente);
+		
+		Optional<Clinica> opt = cr.findById(idClinica);
+		
+		if(opt.isEmpty()) {
+			return "redirect:/clinica";
+		}
+		
+		Clinica clinica = opt.get();
+		paciente.setClinica(clinica);
+		
+		pr.save(paciente);
+		
+		return "redirect:/clinica/{idClinica}";
 	}
 
 }

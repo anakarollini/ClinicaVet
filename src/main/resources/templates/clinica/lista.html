@@ -14,23 +14,24 @@
 
 		<h1>Lista da Clínica</h1>
 
-		<table>
+		<table class="highlight">
 
 			<thead>
 				<tr>
-				<th>Id</th>
+					<th>Id</th>
 					<th>Nome do veterinário</th>
-						<th>CRMV</th>
-							<th>Data do plantão</th>
+					<th>CRMV</th>
+					<th>Data do plantão</th>
 				</tr>
 			</thead>
 			<tbody>
-			<tr  th:each="c : ${clinica}">
-			<td th:text="${c.id}">1</td>
-			<td> <a th:href="@{/clinica/{id}(id=${c.id})}"> <span th:text="${c.nome}">Ana</span></a></td>
-			<td th:text="${c.crmv}">1234</td>
-			<td th:text="${c.dataPlantao}">12/02/2023</td>
-			</tr>
+				<tr th:each="c : ${clinica}">
+					<td th:text="${c.id}">1</td>
+					<td><a th:href="@{/clinica/{id}(id=${c.id})}"> <span
+							th:text="${c.nome}">Ana</span></a></td>
+					<td th:text="${c.crmv}">1234</td>
+					<td th:text="${c.dataPlantao}">12/02/2023</td>
+				</tr>
 			</tbody>
 		</table>
 
