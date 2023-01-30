@@ -26,17 +26,17 @@ public class ClinicaController {
 	private PacienteRepository pr;
 
 	@GetMapping("/form")
-	public String form() {
+	public String form(Clinica clinica) {
 		return "clinica/formClinica";
 	}
 
 	@PostMapping
-	public String adicionar(Clinica clinica) {
+	public String salvar(Clinica clinica) {
 
 		System.out.println(clinica);
 		cr.save(clinica);
 
-		return "clinica/veterinario-adicionado";
+		return "redirect:/clinica";
 	}
 
 	@GetMapping
@@ -49,7 +49,7 @@ public class ClinicaController {
 	}
 
 	@GetMapping("/{id}")
-	public ModelAndView detalhar(@PathVariable Long id) {
+	public ModelAndView detalhar(@PathVariable Long id, Paciente paciente) {
 		ModelAndView md = new ModelAndView();
 		Optional<Clinica> opt = cr.findById(id);
 
@@ -87,24 +87,70 @@ public class ClinicaController {
 
 		return "redirect:/clinica/{idClinica}";
 	}
+
+	@GetMapping("/{id}/selecionar")
+	public ModelAndView selecionarClinica(@PathVariable Long id) {
+		ModelAndView md = new ModelAndView();
+		Optional<Clinica> opt = cr.findById(id);
+
+		if (opt.isEmpty()) {
+			md.setViewName("redirect:/clinica");
+			return md;
+
+		}
+
+		Clinica clinica = opt.get();
+		md.setViewName("clinica/formClinica");
+		md.addObject("clinica", clinica);
+		return md;
+
+	}
 	
+	@GetMapping("/{idClinica}/pacientes/{idPaciente}/selecionar")
+	public ModelAndView selecionarPaciente(@PathVariable Long idClinica, @PathVariable Long idPaciente) {
+		 
+		ModelAndView md = new ModelAndView();
+		Optional<Clinica> optClinica = cr.findById(idClinica); 
+		Optional<Paciente> optPaciente = pr.findById(idPaciente);    
+		
+		if(optClinica.isEmpty() || optPaciente.isEmpty()) {
+			md.setViewName("redirect:/clinica");
+			return md;
+			
+		}
+		
+		Clinica clinica = optClinica.get();
+		 Paciente paciente = optPaciente.get();
+		 
+		 if(clinica.getId() != paciente.getClinica().getId()) {
+			 md.setViewName("redirect:/clinica");
+			 return md;
+			 
+		 }
+		 md.setViewName("clinica/detalhes");
+		md.addObject("paciente", paciente);
+		md.addObject("clinica", clinica);
+		md.addObject("pacientes", pr.findByClinica(clinica));
+		return md;
+	}
+
 	@GetMapping("/{id}/remover")
 	public String apagarClinica(@PathVariable Long id) {
 
 		Optional<Clinica> opt = cr.findById(id);
 
 		if (!opt.isEmpty()) {
-			
+
 			Clinica clinica = opt.get();
-			
+
 			List<Paciente> pacientes = pr.findByClinica(clinica);
-			
+
 			pr.deleteAll(pacientes);
-			
+
 			cr.delete(clinica);
-			
+
 		}
-		
+
 		return "redirect:/clinica";
 	}
 

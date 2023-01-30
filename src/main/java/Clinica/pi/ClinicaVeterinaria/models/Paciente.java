@@ -53,19 +53,19 @@ public class Paciente {
 		this.especie = especie;
 	}
 
-	public String getData() {
+	public String getDataAtendimento() {
 		return dataAtendimento;
 	}
 
-	public void setData(String data) {
+	public void setDataAtendimento(String data) {
 		this.dataAtendimento = data;
 	}
 
-	public String getHora() {
+	public String getHoraAtendimento() {
 		return horaAtendimento;
 	}
 
-	public void setHora(String hora) {
+	public void setHoraAtendimento(String hora) {
 		this.horaAtendimento = hora;
 	}
 
