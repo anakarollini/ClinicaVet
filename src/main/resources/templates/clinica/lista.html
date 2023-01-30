@@ -34,7 +34,10 @@
 							th:text="${c.nome}">Ana</span></a></td>
 					<td th:text="${c.crmv}">1234</td>
 					<td th:text="${c.dataPlantao}">12/02/2023</td>
-					<td><a th:href="@{/clinica/{id}/remover(id=${c.id})}"><i class="material-icons">delete</i></a></td>
+					<td>
+					<a  th:href="@{/clinica/{id}/selecionar(id=${c.id})}"><i class="material-icons">edit</i> </a>
+					<a th:href="@{/clinica/{id}/remover(id=${c.id})}"><i class="material-icons">delete</i></a>
+					</td>
 				</tr>
 			</tbody>
 		</table>

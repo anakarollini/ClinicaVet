@@ -14,16 +14,20 @@
 	
 	<h1>Adicionar Veterinário</h1>
 	
-	<form action="/veterinario" method="post" >
+	<form action="/clinica" method="post" >
+	
+	<div>
+			 <input type="hidden" name="id" th:value="${clinica.id}" readonly="readonly">
+		</div>
 
 		<div>
-			<label>Nome:</label> <input type="text" name="nome">
+			<label>Nome:</label> <input type="text" name="nome" th:value="${clinica.nome}">
 		</div>
 		<div>
-			<label>CRMV:</label> <input type="text" name="crmv">
+			<label>CRMV:</label> <input type="text" name="crmv" th:value="${clinica.crmv}">
 		</div>
 		<div>
-			<label>Data do plantão:</label> <input type="text" name="dataPlantao">
+			<label>Data do plantão:</label> <input type="text" name="dataPlantao" th:value="${clinica.dataPlantao}">
 		</div>
 		<div>
 		<button class="waves-effect waves-light btn">Salvar</button>

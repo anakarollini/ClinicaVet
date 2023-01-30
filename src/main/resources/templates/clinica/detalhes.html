@@ -5,6 +5,8 @@
 <!-- Compiled and minified CSS -->
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
 
 <title>Clínica Veterinária</title>
 </head>
@@ -43,21 +45,24 @@
 				<div class="card ">
 					<div class="card-content">
 						<span class="card-title">Adicionar Paciente:</span>
-						<form action="" method="post">
+						<form th:action="@{/clinica/{idClinica}(idClinica=${clinica.id})}" method="post">
+						<div>
+						<input type="hidden" name ="id" th:value="${paciente.id}" readonly="readonly">
+						</div>
 							<div>
-							<label>Nome: </label> <input type="text" name="nome">
+							<label>Nome: </label> <input type="text" name="nome" th:value="${paciente.nome}">
 							</div>
 							<div>
-							<label>Idade: </label> <input type="text" name="idade">
+							<label>Idade: </label> <input type="text" name="idade" th:value="${paciente.idade}">
 							</div>
 							<div>
-							<label>Espécie: </label> <input type="text" name="especie">
+							<label>Espécie: </label> <input type="text" name="especie" th:value="${paciente.especie}">
 							</div>
 							<div>
-							<label>Data do atendimento: </label> <input type="text" name="dataAtendimento">
+							<label>Data de atendimento: </label> <input type="text" name="dataAtendimento" th:value="${paciente.dataAtendimento}">
 							</div>
 							<div>
-							<label>Hora do atendimento: </label> <input type="text" name="horaAtendimento">
+							<label>Hora do atendimento: </label> <input type="text" name="horaAtendimento"  th:value="${paciente.horaAtendimento}" >
 							</div>
 							<div>
 							<button type="submit" class="btn">Salvar</button>
@@ -91,8 +96,20 @@
 						<td th:text="${c.nome}">Bob</td>
 						<td th:text="${c.idade}">2</td>
 						<td th:text="${c.especie}">Canina</td>
-						<td th:text="${c.dataAtendimento}">12/01/2023</td>
-						<td th:text="${c.horaAtendimento}">09:00</td>
+                          <td th:text="${c.dataAtendimento}">12/02/2023</td>
+                          <td th:text="${c.horaAtendimento}">09:00</td>
+                          
+                      <td>
+                      
+                      <a th:href="@{/clinica/{idClinica}/pacientes/{idPaciente}/selecionar(idClinica=${clinica.id}, idPaciente=${c.id})}"><i class="material-icons">edit</i> </a>
+                      
+                      <a th:href="@{/clinica/{idClinica}/pacientes/{idPaciente}/remover(idClinica=${clinica.id}, idPaciente=${c.id})}"><i class="material-icons">delete</i> </a>
+                      
+                      
+                      </td>
+                 
+                         
+                          
 						</tr>
 						</tbody>
 						</table>
