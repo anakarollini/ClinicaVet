@@ -15,10 +15,12 @@
 	<div class="container">
 
 		<h1>Detalhes da Clínica</h1>
+		
+		<p th:if="${mensagem}" th:text="${mensagem}"></p>
 
 		<div class="row">
 			<div class="col s12">
-				<div class="card ">
+				<div class="card  blue-grey lighten-5">
 					<div class="card-content">
 						<span class="card-title">Cliníca Veterinária</span>
 						<p>
@@ -42,31 +44,36 @@
 		
 			<div class="row">
 			<div class="col s12">
-				<div class="card ">
+				<div class="card  blue-grey lighten-5">
 					<div class="card-content">
 						<span class="card-title">Adicionar Paciente:</span>
-						<form th:action="@{/clinica/{idClinica}(idClinica=${clinica.id})}" method="post">
+						<form th:action="@{/clinica/{idClinica}(idClinica=${clinica.id})}" method="post" th:object="${paciente}">
 						<div>
-						<input type="hidden" name ="id" th:value="${paciente.id}" readonly="readonly">
+						<input type="hidden" th:field="*{id}" readonly="readonly">
 						</div>
 							<div>
-							<label>Nome: </label> <input type="text" name="nome" th:value="${paciente.nome}">
+							<label>Nome: </label> <input type="text" th:field="*{nome}">
+							<p th:errors="*{nome}"></p>
 							</div>
 							<div>
-							<label>Idade: </label> <input type="text" name="idade" th:value="${paciente.idade}">
+							<label>Idade: </label> <input type="text" th:field="*{idade}">
+							<p th:errors="*{idade}"></p>
 							</div>
 							<div>
-							<label>Espécie: </label> <input type="text" name="especie" th:value="${paciente.especie}">
+							<label>Espécie: </label> <input type="text" th:field="*{especie}">
+							<p th:errors="*{especie}"></p>
 							</div>
 							<div>
-							<label>Data de atendimento: </label> <input type="text" name="dataAtendimento" th:value="${paciente.dataAtendimento}">
+							<label>Data de atendimento: </label> <input type="date" th:field="*{dataAtendimento}">
+							<p th:errors="*{dataAtendimento}"></p>
 							</div>
 							<div>
-							<label>Hora do atendimento: </label> <input type="text" name="horaAtendimento"  th:value="${paciente.horaAtendimento}" >
+							<label>Hora do atendimento: </label> <input type="time" th:field="*{horaAtendimento}">
+							<p th:errors="*{horaAtendimento}"></p>
 							</div>
 							<div>
-							<button type="submit" class="btn">Salvar</button>
-							<button type="reset" class="btn">Limpar</button>
+							<button type="submit" class="waves-effect waves-light btn-small">Salvar</button>
+							<button type="reset" class="waves-effect waves-light btn-small">Limpar</button>
 							</div>
 						</form>
 					</div>
@@ -76,7 +83,7 @@
 		
 		<div class="row">
 			<div class="col s12">
-				<div class="card ">
+				<div class="card  blue-grey lighten-5">
 					<div class="card-content">
 						<span class="card-title">Pacientes</span>
 						<table class="highlight">
@@ -96,14 +103,14 @@
 						<td th:text="${c.nome}">Bob</td>
 						<td th:text="${c.idade}">2</td>
 						<td th:text="${c.especie}">Canina</td>
-                          <td th:text="${c.dataAtendimento}">12/02/2023</td>
+                          <td th:text="${#temporals.format(c.dataAtendimento, 'dd/MM/yyyy')}">12/02/2023</td>
                           <td th:text="${c.horaAtendimento}">09:00</td>
                           
                       <td>
                       
-                      <a th:href="@{/clinica/{idClinica}/pacientes/{idPaciente}/selecionar(idClinica=${clinica.id}, idPaciente=${c.id})}"><i class="material-icons">edit</i> </a>
+                      <a th:href="@{/clinica/{idClinica}/pacientes/{idPaciente}/selecionar(idClinica=${clinica.id}, idPaciente=${c.id})}"><i class="material-icons">border_color</i> </a>
                       
-                      <a th:href="@{/clinica/{idClinica}/pacientes/{idPaciente}/remover(idClinica=${clinica.id}, idPaciente=${c.id})}"><i class="material-icons">delete</i> </a>
+                      <a th:href="@{/clinica/{idClinica}/pacientes/{idPaciente}/remover(idClinica=${clinica.id}, idPaciente=${c.id})}"><i class="material-icons">delete_forever</i> </a>
                       
                       
                       </td>

@@ -5,16 +5,19 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import Clinica.pi.ClinicaVeterinaria.models.Clinica;
 import Clinica.pi.ClinicaVeterinaria.models.Paciente;
 import Clinica.pi.ClinicaVeterinaria.repositories.ClinicaRepository;
 import Clinica.pi.ClinicaVeterinaria.repositories.PacienteRepository;
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/clinica")
@@ -31,10 +34,15 @@ public class ClinicaController {
 	}
 
 	@PostMapping
-	public String salvar(Clinica clinica) {
+	public String salvar(@Valid Clinica clinica, BindingResult result, RedirectAttributes atrAttributes) {
 
+		if(result.hasErrors()) {
+			return form(clinica);
+		}
+		
 		System.out.println(clinica);
 		cr.save(clinica);
+		atrAttributes.addFlashAttribute("mensagem", "Veterinário salvo com sucesso!");
 
 		return "redirect:/clinica";
 	}
@@ -69,23 +77,28 @@ public class ClinicaController {
 	}
 
 	@PostMapping("/{idClinica}")
-	public String salvarPaciente(@PathVariable Long idClinica, Paciente paciente) {
+	public ModelAndView salvarPaciente(@PathVariable Long idClinica, @Valid Paciente paciente, BindingResult result, RedirectAttributes atrAttributes) {
 
+		if(result.hasErrors()) {
+			return detalhar(idClinica, paciente);
+		}
+		
 		System.out.println("Id do veterinário: " + idClinica);
 		System.out.println(paciente);
 
 		Optional<Clinica> opt = cr.findById(idClinica);
 
 		if (opt.isEmpty()) {
-			return "redirect:/clinica";
+			return new ModelAndView("redirect:/clinica");
 		}
 
 		Clinica clinica = opt.get();
 		paciente.setClinica(clinica);
 
 		pr.save(paciente);
+		atrAttributes.addFlashAttribute("mensagem", "Paciente salvo com sucesso!");
 
-		return "redirect:/clinica/{idClinica}";
+		return new ModelAndView("redirect:/clinica");
 	}
 
 	@GetMapping("/{id}/selecionar")
@@ -135,7 +148,7 @@ public class ClinicaController {
 	}
 
 	@GetMapping("/{id}/remover")
-	public String apagarClinica(@PathVariable Long id) {
+	public String apagarClinica(@PathVariable Long id, RedirectAttributes atrAttributes) {
 
 		Optional<Clinica> opt = cr.findById(id);
 
@@ -148,10 +161,27 @@ public class ClinicaController {
 			pr.deleteAll(pacientes);
 
 			cr.delete(clinica);
+			atrAttributes.addFlashAttribute("mensagem", "Veterinário removido com sucesso!");
 
 		}
 
 		return "redirect:/clinica";
 	}
+	
+	@GetMapping("/{idClinica}/pacientes/{idPaciente}/remover")
+	public String apagarPaciente(@PathVariable Long idClinica, @PathVariable Long idPaciente, RedirectAttributes atrAttributes) {
+		
+		Optional<Paciente> opt = pr.findById(idPaciente);
+		if(!opt.isEmpty()) {
+			
+			Paciente paciente = opt.get();
+			pr.delete(paciente);
+			atrAttributes.addFlashAttribute("mensagem", "Paciente removido com sucesso!");
+		}
+		
+		return "redirect:/clinica/{idPaciente}";
+	}
+	
+	
 
 }

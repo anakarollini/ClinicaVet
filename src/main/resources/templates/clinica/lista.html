@@ -15,6 +15,8 @@
 	<div class="container">
 
 		<h1>Lista da Clínica</h1>
+		
+		<p th:if="${mensagem}" th:text="${mensagem}"></p>
 
 		<table class="highlight">
 
@@ -33,10 +35,10 @@
 					<td><a th:href="@{/clinica/{id}(id=${c.id})}"> <span
 							th:text="${c.nome}">Ana</span></a></td>
 					<td th:text="${c.crmv}">1234</td>
-					<td th:text="${c.dataPlantao}">12/02/2023</td>
+					<td th:text="${#temporals.format(c.dataPlantao, 'dd/MM/yyyy')}">12/02/2023</td>
 					<td>
-					<a  th:href="@{/clinica/{id}/selecionar(id=${c.id})}"><i class="material-icons">edit</i> </a>
-					<a th:href="@{/clinica/{id}/remover(id=${c.id})}"><i class="material-icons">delete</i></a>
+					<a  th:href="@{/clinica/{id}/selecionar(id=${c.id})}"><i class="material-icons">border_color</i> </a>
+					<a th:href="@{/clinica/{id}/remover(id=${c.id})}"><i class="material-icons">delete_forever</i></a>
 					</td>
 				</tr>
 			</tbody>

@@ -14,24 +14,27 @@
 	
 	<h1>Adicionar Veterinário</h1>
 	
-	<form action="/clinica" method="post" >
+	<form action="/clinica" method="post" th:object="${clinica}">
 	
 	<div>
-			 <input type="hidden" name="id" th:value="${clinica.id}" readonly="readonly">
+			 <input type="hidden" th:field="*{id}" readonly="readonly">
 		</div>
 
 		<div>
-			<label>Nome:</label> <input type="text" name="nome" th:value="${clinica.nome}">
+			<label>Nome:</label> <input type="text" th:field="*{nome}">
+			<p th:errors="*{nome}"></p>
 		</div>
 		<div>
-			<label>CRMV:</label> <input type="text" name="crmv" th:value="${clinica.crmv}">
+			<label>CRMV:</label> <input type="text" th:field="*{crmv}">
+			<p th:errors="*{crmv}"></p>
 		</div>
 		<div>
-			<label>Data do plantão:</label> <input type="text" name="dataPlantao" th:value="${clinica.dataPlantao}">
+			<label>Data do plantão:</label> <input type="date" th:field="*{dataPlantao}">
+			<p th:errors="*{dataPlantao}"></p>
 		</div>
 		<div>
-		<button class="waves-effect waves-light btn">Salvar</button>
-		<button class="waves-effect waves-light btn" type="reset">Limpar</button>
+		<button class="waves-effect waves-light btn-small">Salvar</button>
+		<button class="waves-effect waves-light btn-small" type="reset">Limpar</button>
 		</div>
 	</form>
 	</div>
