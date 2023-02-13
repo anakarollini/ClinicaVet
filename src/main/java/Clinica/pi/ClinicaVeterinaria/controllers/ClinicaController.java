@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,7 +33,8 @@ public class ClinicaController {
 	public String form(Clinica clinica) {
 		return "clinica/formClinica";
 	}
-
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping
 	public String salvar(@Valid Clinica clinica, BindingResult result, RedirectAttributes atrAttributes) {
 
@@ -47,6 +49,7 @@ public class ClinicaController {
 		return "redirect:/clinica";
 	}
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping
 	public ModelAndView listar() {
 		List<Clinica> clinicas = cr.findAll();
@@ -56,6 +59,7 @@ public class ClinicaController {
 
 	}
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/{id}")
 	public ModelAndView detalhar(@PathVariable Long id, Paciente paciente) {
 		ModelAndView md = new ModelAndView();
@@ -76,6 +80,7 @@ public class ClinicaController {
 
 	}
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/{idClinica}")
 	public ModelAndView salvarPaciente(@PathVariable Long idClinica, @Valid Paciente paciente, BindingResult result, RedirectAttributes atrAttributes) {
 
@@ -101,6 +106,7 @@ public class ClinicaController {
 		return new ModelAndView("redirect:/clinica");
 	}
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/{id}/selecionar")
 	public ModelAndView selecionarClinica(@PathVariable Long id) {
 		ModelAndView md = new ModelAndView();
@@ -119,6 +125,7 @@ public class ClinicaController {
 
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/{idClinica}/pacientes/{idPaciente}/selecionar")
 	public ModelAndView selecionarPaciente(@PathVariable Long idClinica, @PathVariable Long idPaciente) {
 		 
@@ -147,6 +154,7 @@ public class ClinicaController {
 		return md;
 	}
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/{id}/remover")
 	public String apagarClinica(@PathVariable Long id, RedirectAttributes atrAttributes) {
 
@@ -168,6 +176,7 @@ public class ClinicaController {
 		return "redirect:/clinica";
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/{idClinica}/pacientes/{idPaciente}/remover")
 	public String apagarPaciente(@PathVariable Long idClinica, @PathVariable Long idPaciente, RedirectAttributes atrAttributes) {
 		
